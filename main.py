@@ -11,10 +11,8 @@ def mostrar_menu():
     print("5. Salir")
 
 def main():
-    # 1. Crear las tablas físicas si no existen
     Base.metadata.create_all(bind=engine)
 
-    # 2. Bucle del menú interactivo
     while True:
         mostrar_menu()
         opcion = input("\nElige una opción (1-5): ")
@@ -52,7 +50,6 @@ def main():
             if id_str.isdigit():
                 user_id = int(id_str)
                 with SessionLocal() as session:
-                    # Buscamos el usuario por su ID
                     usuario = session.get(User, user_id)
                     
                     if usuario:
@@ -63,7 +60,6 @@ def main():
                         nuevo_email = input(f"Nuevo email [{usuario.email}]: ")
                         nueva_edad_str = input(f"Nueva edad [{usuario.age}]: ")
                         
-                        # Actualizamos solo si el usuario escribió algo nuevo
                         if nuevo_nombre.strip():
                             usuario.username = nuevo_nombre
                         if nuevo_email.strip():
@@ -71,7 +67,6 @@ def main():
                         if nueva_edad_str.isdigit():
                             usuario.age = int(nueva_edad_str)
                         
-                        # Guardamos los cambios en la base de datos
                         session.commit()
                         print(f" ¡Usuario con ID {user_id} actualizado correctamente!")
                     else:
